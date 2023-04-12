@@ -39,8 +39,8 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               Slider(
                 value: maxNumber,
-                min: 10000,
-                max: 1000000,
+                min: 1000,
+                max: 100000,
                 onChanged: (double value){
                   setState(() {
                     maxNumber = value;
@@ -51,7 +51,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: RED_COLOR,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop(maxNumber.toInt());
+                },
                 child: Text("저장"),
               ),
             ],
