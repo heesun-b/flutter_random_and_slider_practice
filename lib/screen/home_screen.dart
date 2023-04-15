@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_random_number/component/number_row.dart';
 import 'package:flutter_random_number/constant/color.dart';
 import 'package:flutter_random_number/screen/setting_screen.dart';
 
@@ -25,9 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _header(onPressed: onSettingsPop),
-              _body(randomNumners: randomNumners),
-              _footer(onPressed: onRandomNumberGenerate),
+              _Header(onPressed: onSettingsPop),
+              _Body(randomNumners: randomNumners),
+              _Footer(onPressed: onRandomNumberGenerate),
             ],
           ),
         ),
@@ -39,10 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
       final result = await Navigator.of(context).push<int>(
           MaterialPageRoute(
             builder: (BuildContext context) {
-              return SettingScreen();
+              return SettingScreen(maxNumber: maxNumber,);
             },)
       );
-
       if(result != null) {
         setState(() {
           maxNumber = result;
@@ -58,17 +58,16 @@ class _HomeScreenState extends State<HomeScreen> {
       final number = rand.nextInt(maxNumber);
       newNumbers.add(number);
     }
-
     setState(() {
       randomNumners = newNumbers.toList();
     });
   }
 }
 
-class _header extends StatelessWidget {
+class _Header extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const _header({required this.onPressed, Key? key}) : super(key: key);
+  const _Header({required this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +91,10 @@ class _header extends StatelessWidget {
   }
 }
 
-class _body extends StatelessWidget {
+class _Body extends StatelessWidget {
   final List<int> randomNumners;
 
-  const _body({required this.randomNumners, Key? key}) : super(key: key);
+  const _Body({required this.randomNumners, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -108,17 +107,8 @@ class _body extends StatelessWidget {
           .map(
             (x) => Padding(
               padding: EdgeInsets.only(bottom: x.key == 2 ? 0 : 16.0),
-              child: Row(
-                children: x.value
-                    .toString()
-                    .split('')
-                    .map((y) => Image.asset(
-                          "asset/img/$y.png",
-                          width: 50,
-                          height: 70,
-                        ))
-                    .toList(),
-              ),
+              child: NumberRow(number
+              : x.value)
             ),
           )
           .toList(),
@@ -126,10 +116,10 @@ class _body extends StatelessWidget {
   }
 }
 
-class _footer extends StatelessWidget {
+class _Footer extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const _footer({required this.onPressed, Key? key}) : super(key: key);
+  const _Footer({required this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
